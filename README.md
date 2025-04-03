@@ -8,33 +8,33 @@ Domeniul intrarilor:
     - $D_2$ = $[5, +\infty)$.
 * passengers $\rightarrow$ numar intreg pozitiv, strict mai mare ca $0$ si mai mic sau egal cu $25$. Astfel, avem 3 clase de echivalenta:
     - $P_1$ = $[1, 25]$.
-    - $P_2$ = $\{n | n < 1\}$.
-    - $P_3$ = $\{n | n > 25\}$.
+    - $P_2$ = $\lbrace n | n < 1 \rbrace$.
+    - $P_3$ = $\lbrace n | n > 25 \rbrace$.
 * includeRests $\rightarrow$ boolean $(True | False)$. Deci avem 2 clase de echivalenta:
-    - $R_1$ = $\{True\}$.
-    - $R_2$ = $\{False\}$.
+    - $R_1$ = $\lbrace True \rbrace$.
+    - $R_2$ = $\lbrace False \rbrace$.
 
 Domeniul iesirilor:\
 Se returneaza costul total. Daca datele sunt corecte, totalul va fi mereu calculat si returnat, altfel se va afisa o eroare prin intermediul unei exceptii.\
 Clasele de echivalenta globale astfel obtinute sunt:
-* $Eq_{1} = \{(d, p^{-}, r^{-}) | d \in D_1\}$.
-    - $T_{1} = (4, \_, \_)$.
-* $Eq_{211} = \{(d, p, r) | d \in D_2, p \in P_1, r \in R_1\}$.
+* $Eq_{1} = \lbrace (d, p^{-}, r^{-}) | d \in D_{1} \rbrace$.
+    - $T_{1} = (4, \textunderscore, \textunderscore)$.
+* $Eq_{211} = \lbrace (d, p, r) | d \in D_2, p \in P_1, r \in R_1 \rbrace$.
     - $T_{211} = (100, 3, True)$.
-* $Eq_{212} = \{(d, p, r) | d \in D_2, p \in P_1, r \in R_2\}$.
+* $Eq_{212} = \lbrace (d, p, r) | d \in D_2, p \in P_1, r \in R_2 \rbrace$.
     - $T_{212} = (100, 3, False)$.
-* $Eq_{22} = \{(d, p, r^{-}) | d \in D_2, p \in P_2\}$.
-    - $T_{22} = (100, 0, \_)$.
-* $Eq_{23} = \{(d, p, r^{-}) | d \in D_2, p \in P_3\}$.
-    - $T_{23} = (100, 30, \_)$.
+* $Eq_{22} = \lbrace (d, p, r^{-}) | d \in D_2, p \in P_2 \rbrace$.
+    - $T_{22} = (100, 0, \textunderscore)$.
+* $Eq_{23} = \lbrace (d, p, r^{-}) | d \in D_2, p \in P_3 \rbrace$.
+    - $T_{23} = (100, 30, \textunderscore)$.
 
 |   Intrari (d, p, r)   |   Expected    |
 | :---------: | :-----------: |
-| $(4, \_, \_)$ | Cere ca distanta sa fie macar 5 kilometrii. |
+| $(4, \textunderscore, \textunderscore)$ | Cere ca distanta sa fie macar 5 kilometrii. |
 | $(100, 3, True)$ | Se returneaza totalul de $88,4$. |
 | $(100, 3, False)$ | Se returneaza totalul de $60,4$. |
-| $(100, 0, \_)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(100, 30, \_)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(100, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(100, 30, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
 
 ## 2. Analiza valorilor de frontiera
 * Valorile de frontiera pentru clasa distantei sunt:
@@ -46,21 +46,21 @@ Clasele de echivalenta globale astfel obtinute sunt:
     - $P_3 \rightarrow 26$.
 
 Iar $includeRests$ poate lua 2 valori, deci vom avea urmatoarele 7 teste:
-* $Eq_{1} \rightarrow (5 - \epsilon, \_, \_)$.
+* $Eq_{1} \rightarrow (5 - \epsilon, \textunderscore, \textunderscore)$.
 * $Eq_{211} \rightarrow (5, 1, True), (5, 25, True)$.
 * $Eq_{212} \rightarrow (5, 1, False), (5, 25, False)$.
-* $Eq_{22} \rightarrow (5, 0, \_)$.
-* $Eq_{23} \rightarrow (5, 26, \_)$.
+* $Eq_{22} \rightarrow (5, 0, \textunderscore)$.
+* $Eq_{23} \rightarrow (5, 26, \textunderscore)$.
 
 |   Intrari (d, p, r)   |   Expected    |
 | :---------: | :-----------: |
-| $(5 - \epsilon, \_, \_)$ | Cere ca distanta sa fie macar 5 kilometrii. |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Cere ca distanta sa fie macar 5 kilometrii. |
 | $(5, 1, True)$ | Se returneaza totalul de $4,05$. |
 | $(5, 25, True)$ | Se returneaza totalul de $3,55$. |
 | $(5, 1, False)$ | Se returneaza totalul de $4,05$. |
 | $(5, 25, False)$ | Se returneaza totalul de $3,55$. |
-| $(5, 0, \_)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(5, 26, \_)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(5, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(5, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
 
 ## 3. Category Partitioning
 1. Descompune specificatia în unități: avem o singură unitate.
@@ -75,20 +75,20 @@ Iar $includeRests$ poate lua 2 valori, deci vom avea urmatoarele 7 teste:
     * r: $True$ sau $False$.
 5. Scrie specificația de testare:
     * distanceInKm:
-        - $\{d | d < 5\}$.
+        - $\lbraced | d < 5 \rbrace$.
         - $5 - \epsilon$.
         - 5.
         - 100 (distanta mica).
         - 750 (distanta mare/costuri suplimentare).
     * passengers:
-        - $\{p | p < 0\}$.
+        - $\lbrace p | p < 0 \rbrace$.
         - 0.
         - $1$ (minim + se aplica taxe suplimentare).
         - $2 .. 24$ (mediu).
         - $6$ (se aplica discount).
         - $25$ (maxim).
         - 26.
-        - $\{p | p > 26\}$.
+        - $\lbrace p | p > 26 \rbrace$.
     * includeRests:
         - $True$.
         - $False$.
@@ -97,13 +97,13 @@ Se observa ca pentru a testa toate categoriile vom avea nevoie de 5 $\cdot$ 8 $\
 
 |   Intrari (d, p, r)   |   Expected    |
 | :---------: | :-----------: |
-| $(5 - \epsilon, \_, \_)$ | Cere ca distanta sa fie macar 5 kilometrii. |
-| $(5, 0, \_)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(100, 0, \_)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(750, 0, \_)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(5, 26, \_)$ | Cere ca numarul de persoane sa fie maxim 25. |
-| $(100, 26, \_)$ | Cere ca numarul de persoane sa fie maxim 25. |
-| $(750, 26, \_)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Cere ca distanta sa fie macar 5 kilometrii. |
+| $(5, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(100, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(750, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(5, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(100, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(750, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
 | $(5, 1, True)$ | Se returneaza totalul de $4,05$. |
 | $(5, 1, False)$ | Se returneaza totalul de $4,05$. |
 | $(5, 3, True)$ | Se returneaza totalul de $3,8$. |
