@@ -5,7 +5,6 @@
         private static readonly int MinimumPeopleForDiscount = 5;
         private static readonly int MaximumPeopleForBase = 2;
         private static readonly double BasePerKm = 0.5;
-        private static readonly double Epsilon = 1e-7;
 
         /// <summary>
         /// Computes the total cost of a trip based on the @distance, number of @people and expenses.
@@ -13,7 +12,7 @@
         /// 
         /// <param name="distanceInKm">
         ///     The distance in kilometers.
-        ///     Should be > 0.
+        ///     Should be >= 5.
         /// </param>
         /// 
         /// <param name="passengers">
@@ -29,8 +28,8 @@
         /// <returns>Total cost of the trip.</returns>
         public double TotalTripCost(double distanceInKm, int passengers, bool includeRests) {
             /* Standard checks. */
-            if (distanceInKm <= DistanceService.Epsilon)
-                throw new ArgumentOutOfRangeException(nameof(distanceInKm), "Distance should be positive and non-zero.");
+            if (distanceInKm < 5.0)
+                throw new ArgumentOutOfRangeException(nameof(distanceInKm), "Distance should be positive and at least five kilometers.");
 
             if (passengers <= 0)
                 throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be at least one.");
