@@ -1,42 +1,77 @@
 ﻿namespace Distance.Services {
     public class DistanceService {
-        private readonly double Maximum = 500.0;
-        private readonly double Minimum =  10.0;
+        private static readonly double CostPerStop = 7.0 /* units */;
+        private static readonly int DistancePerStop = 25 /* km */;
+        private static readonly int MinimumPeopleForDiscount = 5;
+        private static readonly int MaximumPeopleForBase = 2;
+        private static readonly double BasePerKm = 0.5;
+        private static readonly double Epsilon = 1e-7;
 
-        public enum Metoda {
-            Standard,
-            Express,
-            Urgent
-        }
+        /// <summary>
+        /// Computes the total cost of a trip based on the @distance, number of @people and expenses.
+        /// </summary>
+        /// 
+        /// <param name="distanceInKm">
+        ///     The distance in kilometers.
+        ///     Should be > 0.
+        /// </param>
+        /// 
+        /// <param name="passengers">
+        ///     The number of passengers.
+        ///     Should be in the range (0, 25].
+        /// </param>
+        /// 
+        /// <param name="includeRests">
+        ///     Tax in based on scheduled rests.
+        ///     Should be True or False.
+        /// </param>
+        /// 
+        /// <returns>Total cost of the trip.</returns>
+        public double TotalTripCost(double distanceInKm, int passengers, bool includeRests) {
+            /* Standard checks. */
+            if (distanceInKm <= DistanceService.Epsilon)
+                throw new ArgumentOutOfRangeException(nameof(distanceInKm), "Distance should be positive and non-zero.");
 
-        public double Transport(double greutate, double distanta, Metoda metoda, bool fragil) {
-            if (greutate <= 0.0)
-                throw new ArgumentException("Greutatea nu poate fi negativa.", nameof(greutate));
+            if (passengers <= 0)
+                throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be at least one.");
+            else if (passengers > 25)
+                throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be maximum 25.");
 
-            double rata;
-            switch (metoda) {
-                case Metoda.Standard: rata = 0.1; break;
-                case Metoda.Express:  rata = 0.2; break;
-                case Metoda.Urgent:   rata = 0.5; break;
-                default: throw new ArgumentException("Metoda invalida!", nameof(metoda));
+            /* Base cost for the trip. */
+            double total = distanceInKm * DistanceService.BasePerKm;
+
+            /* Apply discounts based on the number of people. */
+            if (passengers > DistanceService.MinimumPeopleForDiscount) {
+                total *= 0.9;
+            } else {
+                if (passengers < DistanceService.MaximumPeopleForBase) {
+                    total *= 1.1;
+                }
             }
 
-            double total = greutate * distanta * rata;
-            if (fragil)
-                total += greutate * 0.5;
-
-            if (greutate > 100.0)
-                total += greutate * 0.1;
-
-            int bucati = (int) Math.Floor(distanta / 50.0);
-            for (int i = 0; i < bucati; ++i) {
-                total += 3.0;
+            /* Tax in the scheduled rests. */
+            if (includeRests) {
+                int stops = (int) Math.Floor(distanceInKm / DistanceService.DistancePerStop);
+                for (int i = 0; i < stops; ++i) {
+                    total += DistanceService.CostPerStop;
+                }
             }
 
-            if (total < Minimum) {
-                total = Minimum;
-            } else if (total > Maximum) {
-                total = Maximum;
+            /* Take fuel into consideration. */
+            double efficiency = 10 /* l/km */;
+            double remaining = distanceInKm;
+            double fuelNeeded = 0.0;
+            while (remaining > 0.0) {
+                fuelNeeded += 1.0;
+                remaining -= efficiency * (1.0 + (1.0 / fuelNeeded));
+            }
+
+            total += fuelNeeded * 1.3;
+
+            /* If the trip is long, apply an additional charge. */
+            if ((passengers > DistanceService.MinimumPeopleForDiscount)
+                && (distanceInKm > 500)) {
+                total *= 1.05;
             }
 
             return total;
