@@ -75,7 +75,7 @@ Iar $includeRests$ poate lua 2 valori, deci vom avea urmatoarele 7 teste:
     * r: $True$ sau $False$.
 5. Scrie specificația de testare:
     * distanceInKm:
-        - $\lbraced | d < 5 \rbrace$.
+        - $\lbrace d | d < 5 \rbrace$.
         - $5 - \epsilon$.
         - 5.
         - 100 (distanta mica).
