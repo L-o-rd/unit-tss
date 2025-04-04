@@ -1,11 +1,14 @@
 ﻿using Distance.Services;
+using Xunit.Abstractions;
 
 namespace Distance.Tests.Services {
     public class DistanceService_TripTests {
         private readonly DistanceService _distanceService;
+        private readonly ITestOutputHelper _output;
 
-        public DistanceService_TripTests() {
+        public DistanceService_TripTests(ITestOutputHelper output) {
             _distanceService = new DistanceService();
+            _output = output;
         }
 
         [Fact]
@@ -495,8 +498,122 @@ namespace Distance.Tests.Services {
             // Am facut deja asta mai inainte
 
         }
+
         [Fact]
         public void ConditionCoverage(){
+            // 1. Conditia: distanceInKm < 5.0
+            // a) True: distanța invalida -> se asteaptă exceptie
+            Action act = () => _distanceService.TotalTripCost(
+                distanceInKm: 4,
+                passengers: 10,
+                includeRests: false
+            );
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+            Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
+
+            // b) False: distanta valida folosim dupa
+
+            // 2. Conditia: passengers <= 0
+            // a) True: pasageri 0 -> se asteaptă exceptie
+            act = () => _distanceService.TotalTripCost(
+                distanceInKm: 10,
+                passengers: 0,
+                includeRests: false
+            );
+            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+            Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
+
+            // b) False: numar de pasageri mai mare decat 0 folosim dupa
+
+            // 3. Conditia: passengers > 25
+            // a) True: prea multi pasageri -> se asteapta exceptie
+            act = () => _distanceService.TotalTripCost(
+                distanceInKm: 10,
+                passengers: 30,
+                includeRests: false
+            );
+            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+            Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
+
+            // b) False: numar de pasageri mai mic sau egal decat 25 folosim dupa
+
+            // 4. Conditia: passengers > MinimumPeopleForDiscount
+            // a) True: ex. 6 pasageri (presupunand MinimumPeopleForDiscount=5) => se aplica discountul
+            double totalWithDiscount = _distanceService.TotalTripCost(
+                distanceInKm: 50,
+                passengers: 6,
+                includeRests: false
+            );
+            // b) False: ex. 3 pasageri => discountul nu se aplica
+            double totalNoDiscount = _distanceService.TotalTripCost(
+                distanceInKm: 50,
+                passengers: 3,
+                includeRests: false
+            );
+            // Verificam indirect ca valorile difera
+            Assert.True(totalWithDiscount < totalNoDiscount);
+
+            // 5. Conditia: passengers < MaximumPeopleForBase
+            // a) True: ex. 1 pasager (presupunand MaximumPeopleForBase=2) => se aplica majorarea
+            double totalWithMajoration = _distanceService.TotalTripCost(
+                distanceInKm: 50,
+                passengers: 1,
+                includeRests: false
+            );
+            // b) False: ex. 2 pasageri => nu se aplica majorarea
+            double totalNeutral = _distanceService.TotalTripCost(
+                distanceInKm: 50,
+                passengers: 2,
+                includeRests: false
+            );
+            // Deoarece majorarea mareste costul, se asteapta ca totalul cu majorare sa fie mai mare
+            Assert.True(totalWithMajoration > totalNeutral);
+
+            // 6. Conditia: includeRests
+            // a) True: includeRests=true
+            double totalWithRests = _distanceService.TotalTripCost(
+                distanceInKm: 60,
+                passengers: 6,
+                includeRests: true
+            );
+            // b) False: includeRests=false
+            double totalWithoutRests = _distanceService.TotalTripCost(
+                distanceInKm: 60,
+                passengers: 6,
+                includeRests: false
+            );
+            // Costul cu opriri incluse ar trebui sa fie mai mare
+            Assert.True(totalWithRests > totalWithoutRests);
+
+            // 7. Conditia compusa: (passengers > MinimumPeopleForDiscount) && (distanceInKm > 500)
+            // Vom testa toate combinațiile:
+            // a) Ambele adevarate: ex. pasageri = 6, distance = 600 -> se aplica taxa suplimentara
+            double totalExtraTax = _distanceService.TotalTripCost(
+                distanceInKm: 600,
+                passengers: 6,
+                includeRests: false
+            );
+            // b) passengers > MinimumPeopleForDiscount false, dar distanceInKm > 500 adevarat
+            double totalNoExtraTax1 = _distanceService.TotalTripCost(
+                distanceInKm: 600,
+                passengers: 3,
+                includeRests: false
+            );
+            // c) passengers > MinimumPeopleForDiscount adevarat, dar distanceInKm > 500 fals (ex. 500 km)
+            double totalNoExtraTax2 = _distanceService.TotalTripCost(
+                distanceInKm: 500,
+                passengers: 6,
+                includeRests: false
+            );
+            // d) Ambele false: ex. pasageri = 3, distance = 500
+            double totalNoExtraTax3 = _distanceService.TotalTripCost(
+                distanceInKm: 500,
+                passengers: 3,
+                includeRests: false
+            );
+            Assert.Equal(360,totalExtraTax,0.1);
+            Assert.Equal(372.8,totalNoExtraTax1,0.1);
+            Assert.Equal(totalNoExtraTax2,totalNoExtraTax2);
         }
     }
 }
