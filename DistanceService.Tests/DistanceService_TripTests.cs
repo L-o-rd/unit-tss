@@ -1,14 +1,10 @@
 ﻿using Distance.Services;
-using Xunit.Abstractions;
 
 namespace Distance.Tests.Services {
     public class DistanceService_TripTests {
         private readonly DistanceService _distanceService;
-        private readonly ITestOutputHelper _output;
-
-        public DistanceService_TripTests(ITestOutputHelper output) {
+        public DistanceService_TripTests() {
             _distanceService = new DistanceService();
-            _output = output;
         }
 
         [Fact]
