@@ -161,6 +161,11 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 
 ![Diagrama](graf.jpeg)
 
-## Statement Testing
-## Decision Testing
-## Condition Testing
+## 4. Statement Testing
+Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
+
+## 5. Decision Testing
+Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evaluat atat pentru conditia adevarata, cat si pentru cea falsa.
+
+## 6. Condition Testing
+Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice (adevarat si fals).
