@@ -2,7 +2,7 @@
 ## Descriere
 Aplicatia pune la dispozitie o interfata simpla la nivel de consola, ce ajuta la calcularea si planificarea unei calatorii in functie de distanta, numarul de pasageri si costuri suplimentare.
 
-#Functional Testing
+# Functional Testing
 Functional testing este o metoda de testare software care se concentreaza pe validarea functionalitatilor unui sistem, asigurandu-se ca acestea corespund specificatiilor si cerintelor definite.
 
 ## 1. Partitionarea in clase de echivalenta
@@ -126,7 +126,7 @@ Se observa ca pentru a testa toate categoriile vom avea nevoie de 5 $\cdot$ 8 $\
 | $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
 
 
-#Structural Testing
+# Structural Testing
 Structural testing, cunoscuta si ca white-box testing, se concentreaza pe verificarea interna a codului sursa. Practic, se testeaza structura logica a programului si se asigura ca toate partile acestuia functioneaza conform asteptarilor.
 
 ```c#
@@ -161,6 +161,6 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 
 ![Diagrama](graf.jpeg)
 
-##Statement Testing
-##Decision Testing
-##Condition Testing
+## Statement Testing
+## Decision Testing
+## Condition Testing
