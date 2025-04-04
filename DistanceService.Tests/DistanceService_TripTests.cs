@@ -611,5 +611,8 @@ namespace Distance.Tests.Services {
             Assert.Equal(372.8,totalNoExtraTax1,0.1);
             Assert.Equal(totalNoExtraTax2,totalNoExtraTax2);
         }
+        [Fact]
+        public void IndependentCircuit(){
+        }
     }
 }

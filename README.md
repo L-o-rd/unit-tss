@@ -120,3 +120,34 @@ Se observa ca pentru a testa toate categoriile vom avea nevoie de 5 $\cdot$ 8 $\
 | $(750, 6, False)$ | Se returneaza totalul de $451,29$. |
 | $(750, 25, True)$ | Se returneaza totalul de $671,79$. |
 | $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
+
+```c#
+public double TotalTripCost(double distanceInKm, int passengers, bool includeRests) {   
+    if (distanceInKm < 5.0)
+        throw new ArgumentOutOfRangeException(nameof(distanceInKm), "Distance should be positive and at least five kilometers.");
+    if (passengers <= 0)
+        throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be at least one.");
+    else if (passengers > 25)
+        throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be maximum 25.");
+    double total = distanceInKm * DistanceService.BasePerKm;
+    if (passengers > DistanceService.MinimumPeopleForDiscount) {
+        total *= 0.9;
+    } else {
+        if (passengers < DistanceService.MaximumPeopleForBase) {
+            total *= 1.1;}}
+    if (includeRests) {
+        int stops = (int) Math.Floor(distanceInKm / DistanceService.DistancePerStop);
+        for (int i = 0; i < stops; ++i) {
+            total += DistanceService.CostPerStop;}}
+    double efficiency = 10
+    double remaining = distanceInKm;
+    double fuelNeeded = 0.0;
+    while (remaining > 0.0) {
+        fuelNeeded += 1.0;
+        remaining -= efficiency * (1.0 + (1.0 / fuelNeeded));}
+
+    total += fuelNeeded * 1.3;
+    if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500)){ 
+        total *= 1.05;}
+    return total;}
+```
