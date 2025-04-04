@@ -122,38 +122,31 @@ Se observa ca pentru a testa toate categoriile vom avea nevoie de 5 $\cdot$ 8 $\
 | $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
 
 ```c#
-1. public double TotalTripCost(double distanceInKm, int passengers, bool includeRests) {
-2.     if (distanceInKm < 5.0)
-3.         throw new ArgumentOutOfRangeException(nameof(distanceInKm), "Distance should be positive and at least five kilometers.");
-4.     if (passengers <= 0)
-5.         throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be at least one.");
-6.     else if (passengers > 25)
-7.         throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be maximum 25.");
-8.     double total = distanceInKm * DistanceService.BasePerKm;
-9.     if (passengers > DistanceService.MinimumPeopleForDiscount) {
-10.         total *= 0.9;
-11.     } else {
-12.         if (passengers < DistanceService.MaximumPeopleForBase) {
-13.             total *= 1.1;
-14.         }
-15.     }
-16.     if (includeRests) {
-17.         int stops = (int) Math.Floor(distanceInKm / DistanceService.DistancePerStop);
-18.         for (int i = 0; i < stops; ++i) {
-19.             total += DistanceService.CostPerStop;
-20.         }
-21.     }
-22.     double efficiency = 10;
-23.     double remaining = distanceInKm;
-24.     double fuelNeeded = 0.0;
-25.     while (remaining > 0.0) {
-26.         fuelNeeded += 1.0;
-27.         remaining -= efficiency * (1.0 + (1.0 / fuelNeeded));
-28.     }
-29.     total += fuelNeeded * 1.3;
-30.     if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500)){
-31.         total *= 1.05;
-32.     }
-33.     return total;
-34. }
+public double TotalTripCost(double distanceInKm, int passengers, bool includeRests) {
+1.     if (distanceInKm < 5.0)
+2.         throw new ArgumentOutOfRangeException(nameof(distanceInKm), "Distance should be positive and at least five kilometers.");
+3.     if (passengers <= 0)
+4.         throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be at least one.");
+5.     else if (passengers > 25)
+6.         throw new ArgumentOutOfRangeException(nameof(passengers), "Number of passengers should be maximum 25.");
+7.     double total = distanceInKm * DistanceService.BasePerKm;
+8.     if (passengers > DistanceService.MinimumPeopleForDiscount) {
+9.         total *= 0.9;
+10.     } else {
+11.         if (passengers < DistanceService.MaximumPeopleForBase) {
+12.             total *= 1.1;}}
+13.     if (includeRests) {
+14.         int stops = (int) Math.Floor(distanceInKm / DistanceService.DistancePerStop);
+15.         for (int i = 0; i < stops; ++i) {
+16.             total += DistanceService.CostPerStop;}}
+17.     double efficiency = 10;
+18.     double remaining = distanceInKm;
+19.     double fuelNeeded = 0.0;
+20.     while (remaining > 0.0) {
+21.         fuelNeeded += 1.0;
+22.         remaining -= efficiency * (1.0 + (1.0 / fuelNeeded));}
+23.     total += fuelNeeded * 1.3;
+24.     if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500)){
+25.         total *= 1.05;}
+26.     return total;}
 ```
