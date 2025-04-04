@@ -1,6 +1,10 @@
 # Testare Unitara in C#
 ## Descriere
 Aplicatia pune la dispozitie o interfata simpla la nivel de consola, ce ajuta la calcularea si planificarea unei calatorii in functie de distanta, numarul de pasageri si costuri suplimentare.
+
+#Functional Testing
+Functional testing este o metoda de testare software care se concentreaza pe validarea functionalitatilor unui sistem, asigurandu-se ca acestea corespund specificatiilor si cerintelor definite.
+
 ## 1. Partitionarea in clase de echivalenta
 Domeniul intrarilor:
 * distanceInKm $\rightarrow$ numar real mai mare sau egal cu $5$ km. Astfel, avem 2 clase de echivalenta:
@@ -121,6 +125,10 @@ Se observa ca pentru a testa toate categoriile vom avea nevoie de 5 $\cdot$ 8 $\
 | $(750, 25, True)$ | Se returneaza totalul de $671,79$. |
 | $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
 
+
+#Structural Testing
+Structural testing, cunoscuta si ca white-box testing, se concentreaza pe verificarea interna a codului sursa. Practic, se testeaza structura logica a programului si se asigura ca toate partile acestuia functioneaza conform asteptarilor.
+
 ```c#
 public double TotalTripCost(double distanceInKm, int passengers, bool includeRests) {
 1.     if (distanceInKm < 5.0)
@@ -150,3 +158,9 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 25.         total *= 1.05;}
 26.     return total;}
 ```
+
+![Diagrama](graf.jpeg)
+
+##Statement Testing
+##Decision Testing
+##Condition Testing
