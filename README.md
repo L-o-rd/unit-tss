@@ -165,7 +165,7 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
 
 |   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
-| :---------: | :-----------: | :-----------:
+| :---------: | :-----------: | :-----------: |
 | $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
 | $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
 | $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
@@ -189,7 +189,7 @@ Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evalua
 
 
 |   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
-| :---------: | :-----------: |
+| :---------: | :-----------: | :-----------: | 
 | $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
 | $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
 | $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
@@ -200,7 +200,7 @@ Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evalua
 Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice(adevarat si fals).
 
 |   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
-| :---------: | :-----------: |
+| :---------: | :-----------: | :-----------: |
 | $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
 | $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
 | $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
