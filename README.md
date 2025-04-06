@@ -165,7 +165,7 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
 
 |   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
-| :---------: | :-----------: |
+| :---------: | :-----------: | :-----------:
 | $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
 | $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
 | $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
@@ -175,15 +175,18 @@ Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
 ## 5. Decision Testing
 Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evaluat atat pentru conditia adevarata, cat si pentru cea falsa.
 
-Decizii:
-```c#
-1.if (distanceInKm < 5.0)
-2.if (passengers <= 0)
-3.if (passengers > 25)
-4.
-5.
-6.
-```
+| Nr. | Decizie                                                                               |
+|-----|---------------------------------------------------------------------------------------|
+| 1   | `if (distanceInKm < 5.0)`                                                             |
+| 2   | `if (passengers <= 0)`                                                                |
+| 3   | `if (passengers > 25)`                                                                |
+| 4   | `if (passengers > DistanceService.MinimumPeopleForDiscount)`                          |
+| 5   | `if (passengers < DistanceService.MaximumPeopleForBase)`                              |
+| 6   | `if (includeRests)`                                                                   |
+| 7   | `for (int i = 0; i < stops; ++i)`                                                     |
+| 8   | `while (remaining > 0.0)`                                                             |
+| 9   | `if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))`  |
+
 
 |   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
 | :---------: | :-----------: |
