@@ -164,51 +164,42 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 ## 4. Statement Testing
 Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
 
-<<<<<<< HEAD
-|   Intrari (d, p, r)   |   Expected    |
+|   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
 | :---------: | :-----------: |
-| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |
-| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. |
-| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. |
-| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 |
-| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
+| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
+| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
+| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 | 1,3,5,7,8,10,11,12,13,17,18,19,20,21,22,23,24,26 |
+| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
 
 ## 5. Decision Testing
 Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evaluat atat pentru conditia adevarata, cat si pentru cea falsa.
 
-|   Intrari (d, p, r)   |   Expected    |
+Decizii:
+```c#
+1.if (distanceInKm < 5.0)
+2.if (passengers <= 0)
+3.if (passengers > 25)
+4.
+5.
+6.
+```
+
+|   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
 | :---------: | :-----------: |
-| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |
-| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. |
-| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. |
-| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 |
-| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
+| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
+| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
+| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 | 1,3,5,7,8,10,11,12,13,17,18,19,20,21,22,23,24,26 |
+| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
 
 ## 6. Condition Testing
 Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice(adevarat si fals).
 
-|   Intrari (d, p, r)   |   Expected    |
+|   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
 | :---------: | :-----------: |
-| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Cere ca distanta sa fie macar 5 kilometrii. |
-| $(5, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(100, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(750, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
-| $(5, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
-| $(100, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
-| $(750, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
-| $(5, 1, True)$ | Se returneaza totalul de $4,05$. |
-| $(5, 1, False)$ | Se returneaza totalul de $4,05$. |
-| $(5, 3, True)$ | Se returneaza totalul de $3,8$. |
-| $(5, 3, False)$ | Se returneaza totalul de $3,8$. |
-| $(5, 6, True)$ | Se returneaza totalul de $3,55$. |
-| $(5, 6, False)$ | Se returneaza totalul de $3,55$. |
-| $(5, 25, True)$ | Se returneaza totalul de $3,55$. |
-| $(5, 25, False)$ | Se returneaza totalul de $3,55$. |
-| $(750, 1, True)$ | Se returneaza totalul de $714,8$. |
-| $(750, 1, False)$ | Se returneaza totalul de $504,8$. |
-| $(750, 3, True)$ | Se returneaza totalul de $677,3$. |
-| $(750, 3, False)$ | Se returneaza totalul de $467,3$. |
-| $(750, 6, True)$ | Se returneaza totalul de $671,79$. |
-| $(750, 6, False)$ | Se returneaza totalul de $451,29$. |
-| $(750, 25, True)$ | Se returneaza totalul de $671,79$. |
-| $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
+| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
+| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
+| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 | 1,3,5,7,8,10,11,12,13,17,18,19,20,21,22,23,24,26 |
+| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
