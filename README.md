@@ -161,6 +161,53 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 
 ![Diagrama](graf.jpeg)
 
-## Statement Testing
-## Decision Testing
-## Condition Testing
+## 4. Statement Testing
+Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
+
+|   Intrari (d, p, r)   |   Expected    |
+| :---------: | :-----------: |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |
+| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. |
+| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. |
+| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 |
+| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 |
+
+## 5. Decision Testing
+Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evaluat atat pentru conditia adevarata, cat si pentru cea falsa.
+
+|   Intrari (d, p, r)   |   Expected    |
+| :---------: | :-----------: |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |
+| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. |
+| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. |
+| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 |
+| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 |
+
+## 6. Condition Testing
+Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice(adevarat si fals).
+
+|   Intrari (d, p, r)   |   Expected    |
+| :---------: | :-----------: |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Cere ca distanta sa fie macar 5 kilometrii. |
+| $(5, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(100, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(750, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. |
+| $(5, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(100, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(750, 26, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. |
+| $(5, 1, True)$ | Se returneaza totalul de $4,05$. |
+| $(5, 1, False)$ | Se returneaza totalul de $4,05$. |
+| $(5, 3, True)$ | Se returneaza totalul de $3,8$. |
+| $(5, 3, False)$ | Se returneaza totalul de $3,8$. |
+| $(5, 6, True)$ | Se returneaza totalul de $3,55$. |
+| $(5, 6, False)$ | Se returneaza totalul de $3,55$. |
+| $(5, 25, True)$ | Se returneaza totalul de $3,55$. |
+| $(5, 25, False)$ | Se returneaza totalul de $3,55$. |
+| $(750, 1, True)$ | Se returneaza totalul de $714,8$. |
+| $(750, 1, False)$ | Se returneaza totalul de $504,8$. |
+| $(750, 3, True)$ | Se returneaza totalul de $677,3$. |
+| $(750, 3, False)$ | Se returneaza totalul de $467,3$. |
+| $(750, 6, True)$ | Se returneaza totalul de $671,79$. |
+| $(750, 6, False)$ | Se returneaza totalul de $451,29$. |
+| $(750, 25, True)$ | Se returneaza totalul de $671,79$. |
+| $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
