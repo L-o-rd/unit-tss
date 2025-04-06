@@ -164,6 +164,7 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 ## 4. Statement Testing
 Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
 
+<<<<<<< HEAD
 |   Intrari (d, p, r)   |   Expected    |
 | :---------: | :-----------: |
 | $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |
