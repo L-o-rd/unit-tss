@@ -213,3 +213,14 @@ Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei deciz
 | `while (remaining > 0.0)`                                                          | `remaining > 0.0`                                   |
 | `if ((passengers > MinimumPeopleForDiscount) && (distanceInKm > 500))`             | `passengers > MinimumPeopleForDiscount`<br>`distanceInKm > 500` |
 
+
+| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                                                                 | Decizii acoperite                                                            |
+|------|--------------|------------|--------------|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| T1   | 4            | 5          | false        | Aruncă `ArgumentOutOfRangeException` („Distance should be positive and at least five kilometers.”)               | D1-true                                                                       |
+| T2   | 10           | 0          | false        | Aruncă `ArgumentOutOfRangeException` („Number of passengers should be at least one.”)                            | D1-false, D2-true                                                             |
+| T3   | 10           | 26         | false        | Aruncă `ArgumentOutOfRangeException` („Number of passengers should be maximum 25.”)                              | D1-false, D2-false, D3-true                                                    |
+| T4   | 10           | 1          | false        | Returnează cost = 6.30                                                                                            | D1-false, D2-false, D3-false, D4-false, D5-true, D6-false, D9-false            |
+| T5   | 10           | 2          | false        | Returnează cost = 6.30                                                                                            | D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false           |
+| T6   | 600          | 6          | true         | Returnează cost ≈ 536.34                                                                                          | D1-false, D2-false, D3-false, D4-true,  D5-false, D6-true,  D9-true            |
+
+
