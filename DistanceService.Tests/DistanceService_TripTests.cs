@@ -379,28 +379,16 @@ namespace Distance.Tests.Services {
             //            Se simulează calculul iterativ pentru 600 km.
             //      - Total intermediar: 438 + (fuelNeeded * 1.3)
             //      - Aplicare taxa suplimentara: total * 1.05
-            double fuelNeeded = 0.0;
-            double remaining = 600;
-            double efficiency = 10.0;
-            while (remaining > 0.0)
-            {
-                fuelNeeded += 1.0;
-                remaining -= efficiency * (1.0 + (1.0 / fuelNeeded));
-            }
-            double fuelCost = fuelNeeded * 1.3;
-            double subtotal = 438 + fuelCost;
-            double expectedTotal = subtotal * 1.05;
             total = _distanceService.TotalTripCost(
                 distanceInKm: 600,
                 passengers: 6,
                 includeRests: true
             );
-            Assert.Equal(expectedTotal, total);    
+            Assert.Equal(536.34, total);    
         }
         [Fact]
         public void DecisionCoverage(){
-            // DECIZIA 1: if (distanceInKm < 5.0)
-            // - Ramura true: distanta invalida -> arunca exceptie.
+            // Testarea 1: D1-true
             Action act = () => _distanceService.TotalTripCost(
                 distanceInKm: 4,
                 passengers: 5,
@@ -408,12 +396,8 @@ namespace Distance.Tests.Services {
             );
             var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
-            
-            // - Ramura false: distanta valida.
-            // Folosim o distanta valida pentru urmatorul test(ex. 10 km).
 
-            // DECIZIA 2: if (passengers <= 0) / else if (passengers > 25)
-            // - Ramura true pentru pasageri <= 0
+            // Testarea 2: D2-true, D1-false
             act = () => _distanceService.TotalTripCost(
                 distanceInKm: 10,
                 passengers: 0,
@@ -421,79 +405,40 @@ namespace Distance.Tests.Services {
             );
             exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
-            
-            // - Ramura false: numar de pasageri mai mare decat 0.
-            // Folosim un numar valid de pasageri pentru urmatorul test(ex. 30 pasageri)
 
-            // - Ramura true pentru pasageri > 25
+            // Testarea 3: D3-true, D1-false, D2-false
             act = () => _distanceService.TotalTripCost(
                 distanceInKm: 10,
-                passengers: 30,
+                passengers: 26,
                 includeRests: false
             );
             exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
 
-            // - Ramura false: numar de pasageri mai mic decat 25.
-            // Folosim un numar valid de pasageri pentru urmatorul test(ex. 1 pasager)
-
-            // DECIZIA 3: if (passengers > MinimumPeopleForDiscount) / else if (passengers < MaximumPeopleForBase)
-            // - Ramura true pentru passengers > 5
+            // Testarea 4: D5-true, D1-false, D2-false, D3-false, D4-false, D6-false, D9-false
             double total = _distanceService.TotalTripCost(
-                distanceInKm: 50,
-                passengers: 6,
-                includeRests: false
-            );
-            Assert.Equal(27.7, total);
-
-            // - Ramura false: numar de pasageri mai mic sau egal cu 5.
-            // Folosim un numar valid de pasageri pentru urmatorul test(ex. 1 pasager)
-
-            // - Ramura true pentru passengers < 2
-            total = _distanceService.TotalTripCost(
-                distanceInKm: 50,
+                distanceInKm: 10,
                 passengers: 1,
                 includeRests: false
             );
-            Assert.Equal(32.7, total);
+            Assert.Equal(6.8, total);
 
-            // - Ramura false: numar de pasageri mai mare sau egal cu 2.
-            // Folosim un numar valid de pasageri pentru urmatorul test(ex. 2 pasageri)
-
-            // DECIZIA 4: if (includeRests)
-            // - Ramura true pentru includeRests == true
+            // Testarea 5: D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false
             total = _distanceService.TotalTripCost(
-                distanceInKm: 50,
+                distanceInKm: 10,
                 passengers: 2,
-                includeRests: true
+                includeRests: false
             );
-            Assert.Equal(44.2, total);
-            // - Ramura false : includeRests este false
-            // Am facut deja asta mai inainte
+            Assert.Equal(6.3, total);
 
-            //DECIZIA 5: if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))
-            // - Ramura true pentru passengers > 5 si distanceInKm > 500
-            double fuelNeeded = 0.0;
-            double remaining = 600;
-            double efficiency = 10.0;
-            while (remaining > 0.0)
-            {
-                fuelNeeded += 1.0;
-                remaining -= efficiency * (1.0 + (1.0 / fuelNeeded));
-            }
-            double fuelCost = fuelNeeded * 1.3;
-            double subtotal = 270 + fuelCost;
-            double expectedTotal = subtotal * 1.05;
+            //Testarea 6: D4-true, D6-true, D9-true, D1-false, D2-false, D3-false, D5-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 600,
                 passengers: 6,
-                includeRests: false
+                includeRests: true
             );
-            Assert.Equal(expectedTotal, total);
-            // - Ramura false : ori cand passengers <=5 sau cand distanceInKm <=500
-            // Am facut deja asta mai inainte
-
-        }
+            Assert.Equal(536.34, total);
+       }
 
         [Fact]
         public void ConditionCoverage(){

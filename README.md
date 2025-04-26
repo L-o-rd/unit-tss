@@ -179,22 +179,24 @@ Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evalua
 |-----|---------------------------------------------------------------------------------------|
 | 1   | `if (distanceInKm < 5.0)`                                                             |
 | 2   | `if (passengers <= 0)`                                                                |
-| 3   | `if (passengers > 25)`                                                                |
+| 3   | `else if (passengers > 25)`                                                           |
 | 4   | `if (passengers > DistanceService.MinimumPeopleForDiscount)`                          |
-| 5   | `if (passengers < DistanceService.MaximumPeopleForBase)`                              |
+| 5   | `else if (passengers < DistanceService.MaximumPeopleForBase)`                         |
 | 6   | `if (includeRests)`                                                                   |
 | 7   | `for (int i = 0; i < stops; ++i)`                                                     |
 | 8   | `while (remaining > 0.0)`                                                             |
-| 9   | `if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))`  |
+| 9   | `if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))`|
 
 
-|   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
-| :---------: | :-----------: | :-----------: | 
-| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
-| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
-| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
-| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 | 1,3,5,7,8,10,11,12,13,17,18,19,20,21,22,23,24,26 |
-| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
+| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                        | Decizii acoperite                                                                                  |
+|------|--------------|------------|--------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| T1   | 4            | 5          | false        | Testeaza ramura in care distanta este macar 5 kilometrii. | D1-true                                                                                            |
+| T2   | 10           | 0          | false        | Testeaza ramura in care numarul de persoane este minim 1.            | D1-false, D2-true                                                                                  |
+| T3   | 10           | 26         | false        | Testeaza ramura in care numarul de persoane este maxim 25.             | D1-false, D2-false, D3-true                                                                        |
+| T4   | 10           | 1          | false        | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returnează cost = 6.30                                                     | D5-true, D1-false, D2-false, D3-false, D4-false, D6-false, D9-false                                 |
+| T5   | 10           | 2          | false        | Testeaza ramura in care numarul de persoane este mai mare sau egal decat numarul maxim de persoane de baza, este mai mic decat numarul minim de persoane de baza, ca nu sunt incluse stopuri, ca distanta este mai mica decat 500 de km si returnează cost = 6.30                                                     | D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false                                 |
+| T6   | 600          | 6          | true         | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returnează cost ≈ 536.34                                                    | D1-false, D2-false, D3-false, D4-true,  D5-false, D6-true,  D9-true                                   |
+
 
 ## 6. Condition Testing
 Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice(adevarat si fals).
