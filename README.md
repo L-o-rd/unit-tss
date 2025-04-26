@@ -201,10 +201,15 @@ Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evalua
 ## 6. Condition Testing
 Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice(adevarat si fals).
 
-|   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
-| :---------: | :-----------: | :-----------: |
-| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
-| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
-| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
-| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 | 1,3,5,7,8,10,11,12,13,17,18,19,20,21,22,23,24,26 |
-| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
+| Decizie                                                                            | Condiții individuale                                |
+|------------------------------------------------------------------------------------|-----------------------------------------------------|
+| `if (distanceInKm < 5.0)`                                                          | `distanceInKm < 5.0`                                |
+| `if (passengers <= 0)`                                                             | `passengers <= 0`                                   |
+| `else if (passengers > 25)`                                                        | `passengers > 25`                                   |
+| `if (passengers > MinimumPeopleForDiscount)`                                       | `passengers > MinimumPeopleForDiscount`             |
+| `else if (passengers < MaximumPeopleForBase)`                                      | `passengers < MaximumPeopleForBase`                 |
+| `if (includeRests)`                                                                | `includeRests == true`                              |
+| `for (int i = 0; i < stops; ++i)`                                                  | `i < stops`                                         |
+| `while (remaining > 0.0)`                                                          | `remaining > 0.0`                                   |
+| `if ((passengers > MinimumPeopleForDiscount) && (distanceInKm > 500))`             | `passengers > MinimumPeopleForDiscount`<br>`distanceInKm > 500` |
+
