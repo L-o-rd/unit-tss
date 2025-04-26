@@ -201,26 +201,27 @@ Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evalua
 ## 6. Condition Testing
 Se concentreaza pe evaluarea fiecarei conditii individuale din cadrul unei decizii, asigurandu-se ca fiecare sub-conditie a fost testata pentru ambele valori logice(adevarat si fals).
 
-| Decizie                                                                            | Condiții individuale                                |
-|------------------------------------------------------------------------------------|-----------------------------------------------------|
-| `if (distanceInKm < 5.0)`                                                          | `distanceInKm < 5.0`                                |
-| `if (passengers <= 0)`                                                             | `passengers <= 0`                                   |
-| `else if (passengers > 25)`                                                        | `passengers > 25`                                   |
-| `if (passengers > MinimumPeopleForDiscount)`                                       | `passengers > MinimumPeopleForDiscount`             |
-| `else if (passengers < MaximumPeopleForBase)`                                      | `passengers < MaximumPeopleForBase`                 |
-| `if (includeRests)`                                                                | `includeRests == true`                              |
-| `for (int i = 0; i < stops; ++i)`                                                  | `i < stops`                                         |
-| `while (remaining > 0.0)`                                                          | `remaining > 0.0`                                   |
-| `if ((passengers > MinimumPeopleForDiscount) && (distanceInKm > 500))`             | `passengers > MinimumPeopleForDiscount`<br>`distanceInKm > 500` |
+| Nr. | Decizie                                                                            | Condiții individuale                                |
+|----|------------------------------------------------------------------------------------|-----------------------------------------------------|
+| 1 | `if (distanceInKm < 5.0)`                                                          | `distanceInKm < 5.0`                                |
+| 2 | `if (passengers <= 0)`                                                             | `passengers <= 0`                                   |
+| 3 | `else if (passengers > 25)`                                                        | `passengers > 25`                                   |
+| 4 | `if (passengers > MinimumPeopleForDiscount)`                                       | `passengers > MinimumPeopleForDiscount`             |
+| 5 | `else if (passengers < MaximumPeopleForBase)`                                      | `passengers < MaximumPeopleForBase`                 |
+| 6 | `if (includeRests)`                                                                | `includeRests == true`                              |
+| 7 | `for (int i = 0; i < stops; ++i)`                                                  | `i < stops`                                         |
+| 8 | `while (remaining > 0.0)`                                                          | `remaining > 0.0`                                   |
+| 9 | `if ((passengers > MinimumPeopleForDiscount) && (distanceInKm > 500))`             | `passengers > MinimumPeopleForDiscount`<br>`distanceInKm > 500` |
 
 
-| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                                                                 | Decizii acoperite                                                            |
-|------|--------------|------------|--------------|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| T1   | 4            | 5          | false        | Aruncă `ArgumentOutOfRangeException` („Distance should be positive and at least five kilometers.”)               | D1-true                                                                       |
-| T2   | 10           | 0          | false        | Aruncă `ArgumentOutOfRangeException` („Number of passengers should be at least one.”)                            | D1-false, D2-true                                                             |
-| T3   | 10           | 26         | false        | Aruncă `ArgumentOutOfRangeException` („Number of passengers should be maximum 25.”)                              | D1-false, D2-false, D3-true                                                    |
-| T4   | 10           | 1          | false        | Returnează cost = 6.30                                                                                            | D1-false, D2-false, D3-false, D4-false, D5-true, D6-false, D9-false            |
-| T5   | 10           | 2          | false        | Returnează cost = 6.30                                                                                            | D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false           |
-| T6   | 600          | 6          | true         | Returnează cost ≈ 536.34                                                                                          | D1-false, D2-false, D3-false, D4-true,  D5-false, D6-true,  D9-true            |
+| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                                                                 | Decizii acoperite                                                            | Condiții acoperite                                                                          |
+|------|--------------|------------|--------------|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| T1   | 4            | 5          | false        | Aruncă `ArgumentOutOfRangeException` („Distance should be positive and at least five kilometers.”)               | D1-true                                                                       | C1-true                                                                                      |
+| T2   | 10           | 0          | false        | Aruncă `ArgumentOutOfRangeException` („Number of passengers should be at least one.”)                            | D1-false, D2-true                                                             | C1-false, C2-true                                                                           |
+| T3   | 10           | 26         | false        | Aruncă `ArgumentOutOfRangeException` („Number of passengers should be maximum 25.”)                              | D1-false, D2-false, D3-true                                                    | C3-true                                                                                      |
+| T4   | 10           | 1          | false        | Returnează cost = 6.30                                                                                            | D1-false, D2-false, D3-false, D4-false, D5-true, D6-false, D9-false            | C4-false, C5-true, C6-false, C7-false                                                        |
+| T5   | 10           | 2          | false        | Returnează cost = 6.30                                                                                            | D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false           | C4-false, C5-false, C6-false, C7-false                                                       |
+| T6   | 600          | 6          | true         | Returnează cost ≈ 536.34                                                                                          | D1-false, D2-false, D3-false, D4-true,  D5-false, D6-true,  D9-true            | C4-true, C5-false, C6-true, C7-true                                                          |
+
 
 
