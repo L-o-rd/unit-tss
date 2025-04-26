@@ -189,7 +189,7 @@ Asiguram ca fiecare punct de decizie (de exemplu, instructiunile if) este evalua
 
 
 | Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                        | Decizii acoperite                                                                                  |
-|------|--------------|------------|--------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+|------|----|----|-------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | T1   | 4 | 5 | false | Testeaza ramura in care distanta este macar 5 kilometrii. | D1-true                                                                                            |
 | T2   | 10 | 0   | false | Testeaza ramura in care numarul de persoane este minim 1.            | D1-false, D2-true                                                                                  |
 | T3   | 10 | 26 | false | Testeaza ramura in care numarul de persoane este maxim 25.             | D1-false, D2-false, D3-true                                                                        |
