@@ -442,7 +442,7 @@ namespace Distance.Tests.Services {
 
         [Fact]
         public void ConditionCoverage(){
-            // Testarea 1: D1-true
+            // Testarea 1: C1-true
             Action act = () => _distanceService.TotalTripCost(
                 distanceInKm: 4,
                 passengers: 5,
@@ -451,7 +451,7 @@ namespace Distance.Tests.Services {
             var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
 
-            // Testarea 2: D2-true, D1-false
+            // Testarea 2: C2-true, C1-false
             act = () => _distanceService.TotalTripCost(
                 distanceInKm: 10,
                 passengers: 0,
@@ -460,7 +460,7 @@ namespace Distance.Tests.Services {
             exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 3: D3-true, D1-false, D2-false
+            // Testarea 3: C3-true, C1-false, C2-false
             act = () => _distanceService.TotalTripCost(
                 distanceInKm: 10,
                 passengers: 26,
@@ -469,7 +469,7 @@ namespace Distance.Tests.Services {
             exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 4: D5-true, D1-false, D2-false, D3-false, D4-false, D6-false, D9-false
+            // Testarea 4: C5-true, C1-false, C2-false, C3-false, C4-false, C6-false, C9-false
             double total = _distanceService.TotalTripCost(
                 distanceInKm: 10,
                 passengers: 1,
@@ -477,7 +477,7 @@ namespace Distance.Tests.Services {
             );
             Assert.Equal(6.8, total);
 
-            // Testarea 5: D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false
+            // Testarea 5: C1-false, C2-false, C3-false, C4-false, C5-false, C6-false, C9-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 10,
                 passengers: 2,
@@ -485,7 +485,7 @@ namespace Distance.Tests.Services {
             );
             Assert.Equal(6.3, total);
 
-            //Testarea 6: D4-true, D6-true, D9-true, D1-false, D2-false, D3-false, D5-false
+            //Testarea 6: C4-true, C6-true, C9-true, C1-false, C2-false, C3-false, C5-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 600,
                 passengers: 6,
