@@ -765,12 +765,12 @@ Conditia 8 nu poate vreodata sa fie falsa intrucat daca folosim o distanta 0, nu
 | T1   | 4            | 5          | false        | Testează ramura în care distanța este mai mică decât 5 kilometri.                                                  | C1-true                                                                                      |
 | T2   | 10           | 0          | false        | Testează ramura în care numărul de persoane este minim 1.                                                          | C1-false, C2-true                                                                           |
 | T3   | 10           | 26         | false        | Testează ramura în care numărul de persoane este maxim 25.                                                         | C1-false,C2-false C3-true                                                                                      |
-| T4   | 10           | 1          | false        | Testează ramura în care numărul de persoane este mai mic decât numărul maxim de persoane de bază și returnează cost = 6.30 | C1-false,C2-false,C3-false, C4-false, C5-true, C6-false, C9-false                                                        |
-| T5   | 24           | 2          | true        | Testeaza ramura in care numarul de persoane este mai mare sau egal decat numarul maxim de persoane de baza, este mai mic decat numarul minim de persoane de baza, ca sunt incluse stopuri ca si posibilitate dar ele nu sunt, ca distanta este mai mica decat 500 de km si returnează cost = 14.6 | C1-false,C2-false,C3-false,C4-false, C5-false, C6-true, C7-false, C9-false                                                       |
-| T6   | 600          | 6          | true         | Testează ramura în care numărul de persoane este mai mare decât minimul pentru discount, se includ opriri și distanța este peste 500 km; returnează cost ≈ 536.34. | C1-false, C2-false, C3-false, C4-true, C5-false, C6-true, C7-true,C9-true                                                          |
+| T4   | 10           | 1          | false        | Testează ramura în care numărul de persoane este mai mic decât numărul maxim de persoane de bază și returnează cost = 6.30 | C1-false,C2-false,C3-false, C4-false, C5-true, C6-false, C9.1-false, C9.2-false                                                        |
+| T5   | 24           | 2          | true        | Testeaza ramura in care numarul de persoane este mai mare sau egal decat numarul maxim de persoane de baza, este mai mic decat numarul minim de persoane de baza, ca sunt incluse stopuri ca si posibilitate dar ele nu sunt, ca distanta este mai mica decat 500 de km si returnează cost = 14.6 | C1-false,C2-false,C3-false,C4-false, C5-false, C6-true, C7-false, C9.1-false, C9.2-false                                                       |
+| T6   | 600          | 6          | true         | Testează ramura în care numărul de persoane este mai mare decât minimul pentru discount, se includ opriri și distanța este peste 500 km; returnează cost ≈ 536.34. | C1-false, C2-false, C3-false, C4-true, C5-false, C6-true, C7-true, C9.1-true, C9.2-true                                                        |
 
 ```c#
-[Fact]
+        [Fact]
         public void ConditionCoverage(){
             // Testarea 1: C1-true
             Action act = () => _distanceService.TotalTripCost(
@@ -799,7 +799,7 @@ Conditia 8 nu poate vreodata sa fie falsa intrucat daca folosim o distanta 0, nu
             exception = Assert.Throws<ArgumentOutOfRangeException>(act);
             Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 4: C5-true, C1-false, C2-false, C3-false, C4-false, C6-false, C9-false
+            // Testarea 4: C5-true, C1-false, C2-false, C3-false, C4-false, C6-false, C9.1-false, C9.2-false
             double total = _distanceService.TotalTripCost(
                 distanceInKm: 10,
                 passengers: 1,
@@ -807,7 +807,7 @@ Conditia 8 nu poate vreodata sa fie falsa intrucat daca folosim o distanta 0, nu
             );
             Assert.Equal(6.8, total);
 
-            // Testarea 5:  C6-true, C1-false, C2-false, C3-false, C4-false, C5-false, C7-false, C9-false
+            // Testarea 5:  C6-true, C1-false, C2-false, C3-false, C4-false, C5-false, C7-false, C9.1-false, C9.2-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 24,
                 passengers: 2,
@@ -815,7 +815,7 @@ Conditia 8 nu poate vreodata sa fie falsa intrucat daca folosim o distanta 0, nu
             );
             Assert.Equal(14.6, total);
 
-            //Testarea 6: C4-true, C6-true, C7-true, C9-true, C1-false, C2-false, C3-false, C5-false
+            //Testarea 6: D4-true, D6-true, D7-true, D9.1-true, D9.2-true, D1-false, D2-false, D3-false, D5-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 600,
                 passengers: 6,
