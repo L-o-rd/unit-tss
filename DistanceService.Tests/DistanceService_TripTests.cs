@@ -423,15 +423,15 @@ namespace Distance.Tests.Services {
             );
             Assert.Equal(6.8, total);
 
-            // Testarea 5: D1-false, D2-false, D3-false, D4-false, D5-false, D6-false, D9-false
+            // Testarea 5:  D6-true, D1-false, D2-false, D3-false, D4-false, D5-false, D7-false, D9-false
             total = _distanceService.TotalTripCost(
-                distanceInKm: 10,
+                distanceInKm: 24,
                 passengers: 2,
-                includeRests: false
+                includeRests: true
             );
-            Assert.Equal(6.3, total);
+            Assert.Equal(14.6, total);
 
-            //Testarea 6: D4-true, D6-true, D9-true, D1-false, D2-false, D3-false, D5-false
+            //Testarea 6: D4-true, D6-true, D7-true, D9-true, D1-false, D2-false, D3-false, D5-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 600,
                 passengers: 6,
@@ -477,15 +477,15 @@ namespace Distance.Tests.Services {
             );
             Assert.Equal(6.8, total);
 
-            // Testarea 5: C1-false, C2-false, C3-false, C4-false, C5-false, C6-false, C9-false
+            // Testarea 5:  C6-true, C1-false, C2-false, C3-false, C4-false, C5-false, C7-false, C9-false
             total = _distanceService.TotalTripCost(
-                distanceInKm: 10,
+                distanceInKm: 24,
                 passengers: 2,
-                includeRests: false
+                includeRests: true
             );
-            Assert.Equal(6.3, total);
+            Assert.Equal(14.6, total);
 
-            //Testarea 6: C4-true, C6-true, C9-true, C1-false, C2-false, C3-false, C5-false
+            //Testarea 6: C4-true, C6-true, C7-true, C9-true, C1-false, C2-false, C3-false, C5-false
             total = _distanceService.TotalTripCost(
                 distanceInKm: 600,
                 passengers: 6,
