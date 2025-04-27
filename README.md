@@ -1,6 +1,17 @@
 # Testare Unitara in C#
 ## Descriere
 Aplicatia pune la dispozitie o interfata simpla la nivel de consola, ce ajuta la calcularea si planificarea unei calatorii in functie de distanta, numarul de pasageri si costuri suplimentare.
+## Specificație
+Serviciul ar trebui:
+* Sa returneze mereu o valoare valida.
+* Sa arunce o eroare in cazuri invalide.
+* Distanta este reprezentata in km.
+* Distanta ar trebui sa fie de cel putin 5 km.
+* Numarul pasagerilor ar trebui sa fie cel putin 1.
+* Un numar de cel putin 6 pasageri vor primi o reducere.
+* O calatorie cu un singur pasager va costa mai mult ca o calatorie normala.
+* Nu se accepta mai mult de 25 de pasageri.
+* Planificarea poate include si stop-urile aferente.
 ## 1. Partitionarea in clase de echivalenta
 Domeniul intrarilor:
 * distanceInKm $\rightarrow$ numar real mai mare sau egal cu $5$ km. Astfel, avem 2 clase de echivalenta:
