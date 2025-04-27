@@ -450,3 +450,36 @@ public void CategoryPartitioning() {
     Assert.Equal(451.29, total);
 }
 ```
+
+## 4. Circuit Coverage
+Testarea circuitelor independente identifica limita superioara a numarului de cai necesare pentru obtinerea unei acoperiri la nivel de ramura.
+Astfel, conform grafului control-flow $G$ de mai sus la care adaugam arcele $26 \rightarrow 1$, $2 \rightarrow 1$, $4 \rightarrow 1$ si $6 \rightarrow 1$ pentru a fi un graf complet conectat, avem (numarul de muchii) $n$ = $22$, (numarul de muchii) $e$ = $31$ si (numarul componentelor conexe) $p$ = $1$.\
+Folosind formula completa pentru o subrutina (metoda) $V(G)$ = $e - n + 2p$, vom avea $V(G)$ = $31 - 22 + 2$ = $11$ circuite.\
+Acestea sunt:
+* $1 \rightarrow 2 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 4 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 6 \rightarrow 1$
+* $15 \rightarrow 16 \rightarrow 15$
+* $20 \rightarrow 21..22 \rightarrow 20$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 25 \rightarrow 26 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 12 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$
+* $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 12 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$
+
+Testele corespunzatoare sunt:
+
+|   Intrari (d, p, r)   |   Expected    | Circuitul |
+| :---------: | :-----------: | :-----------: |
+| $(0, \textunderscore, \textunderscore)$ | Cere ca distanta sa fie macar 5 kilometrii. | $1 \rightarrow 2 \rightarrow 1$ |
+| $(6, 0, \textunderscore)$ | Cere ca numarul de persoane sa fie minim 1. | $1 \rightarrow 3 \rightarrow 4 \rightarrow 1$ |
+| $(6, 30, \textunderscore)$ | Cere ca numarul de persoane sa fie maxim 25. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 6 \rightarrow 1$ |
+| $(30, 6, True)$ | Se returneaza totalul de $23,1$. | $15 \rightarrow 16 \rightarrow 15$ |
+| $(6, 10, True)$ | Se returneaza totalul de $4$. | $20 \rightarrow 21..22 \rightarrow 20$ |
+| $(6, 6, True)$ | Se returneaza totalul de $4$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
+| $(750, 6, False)$ | Se returneaza totalul de $451,29$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 25 \rightarrow 26 \rightarrow 1$ |
+| $(250, 6, False)$ | Se returneaza totalul de $141,1$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
+| $(6, 1, False)$ | Se returneaza totalul de $4,6$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 12 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
+| $(6, 3, True)$ | Se returneaza totalul de $4,3$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
+| $(6, 1, True)$ | Se returneaza totalul de $4,6$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 12 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
