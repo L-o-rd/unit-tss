@@ -453,7 +453,7 @@ public void CategoryPartitioning() {
 
 ## 4. Circuit Coverage
 Testarea circuitelor independente identifica limita superioara a numarului de cai necesare pentru obtinerea unei acoperiri la nivel de ramura.
-Astfel, conform grafului control-flow $G$ de mai sus la care adaugam arcele $26 \rightarrow 1$, $2 \rightarrow 1$, $4 \rightarrow 1$ si $6 \rightarrow 1$ pentru a fi un graf complet conectat, avem (numarul de muchii) $n$ = $22$, (numarul de muchii) $e$ = $31$ si (numarul componentelor conexe) $p$ = $1$.\
+Astfel, conform grafului control-flow $G$ de mai sus la care adaugam arcele $26 \rightarrow 1$, $2 \rightarrow 1$, $4 \rightarrow 1$ si $6 \rightarrow 1$ pentru a fi un graf complet conectat, avem (numarul de noduri) $n$ = $22$, (numarul de muchii) $e$ = $31$ si (numarul componentelor conexe) $p$ = $1$.\
 Folosind formula completa pentru o subrutina (metoda) $V(G)$ = $e - n + 2p$, vom avea $V(G)$ = $31 - 22 + 2$ = $11$ circuite.\
 Acestea sunt:
 * $1 \rightarrow 2 \rightarrow 1$
@@ -483,3 +483,99 @@ Testele corespunzatoare sunt:
 | $(6, 1, False)$ | Se returneaza totalul de $4,6$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 12 \rightarrow 13 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
 | $(6, 3, True)$ | Se returneaza totalul de $4,3$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
 | $(6, 1, True)$ | Se returneaza totalul de $4,6$. | $1 \rightarrow 3 \rightarrow 5 \rightarrow 7 \rightarrow 8 \rightarrow 10..11 \rightarrow 12 \rightarrow 13 \rightarrow 14 \rightarrow 15 \rightarrow 17..19 \rightarrow 20 \rightarrow 23 \rightarrow 24 \rightarrow 26 \rightarrow 1$ |
+
+```cs
+[Fact]
+public void CircuitCoverage() {
+    Action act = () => _distanceService.TotalTripCost(
+        distanceInKm: 0,
+        passengers: 0,
+        includeRests: false
+    );
+
+    var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
+
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 0,
+        includeRests: false
+    );
+
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
+
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 30,
+        includeRests: false
+    );
+
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
+
+    var total = _distanceService.TotalTripCost(
+        distanceInKm: 30,
+        passengers: 6,
+        includeRests: true
+    );
+
+    Assert.Equal(23.1, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 10,
+        includeRests: true
+    );
+
+    Assert.Equal(4, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 6,
+        includeRests: true
+    );
+
+    Assert.Equal(4, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 750,
+        passengers: 6,
+        includeRests: false
+    );
+
+    Assert.Equal(451.29, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 250,
+        passengers: 6,
+        includeRests: false
+    );
+
+    Assert.Equal(141.1, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 1,
+        includeRests: false
+    );
+
+    Assert.Equal(4.6, total, 1e-3);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 3,
+        includeRests: true
+    );
+
+    Assert.Equal(4.3, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 6,
+        passengers: 1,
+        includeRests: true
+    );
+
+    Assert.Equal(4.6, total, 1e-3);
+}
+```
