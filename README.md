@@ -590,73 +590,73 @@ Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
 | $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
 
 ```c#
-    [Fact]
-        public void StatementCoverage(){
-            // 1. Test pentru distanta invalida (< 5 km)
-            Action act = () => _distanceService.TotalTripCost(
-                distanceInKm: 4,
-                passengers: 5,
-                includeRests: false
-            );
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
+[Fact]
+public void StatementCoverage(){
+    // 1. Test pentru distanta invalida (< 5 km)
+    Action act = () => _distanceService.TotalTripCost(
+        distanceInKm: 4,
+        passengers: 5,
+        includeRests: false
+    );
+    var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
 
-            // 2. Test pentru numar de pasageri invalid (0 pasageri)
-            act = () => _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 0,
-                includeRests: false
-            );
-            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
+    // 2. Test pentru numar de pasageri invalid (0 pasageri)
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 0,
+        includeRests: false
+    );
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
 
-            // 3. Test pentru numar de pasageri invalid (> 25 pasageri)
-            act = () => _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 30,
-                includeRests: false
-            );
-            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
+    // 3. Test pentru numar de pasageri invalid (> 25 pasageri)
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 30,
+        includeRests: false
+    );
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
 
-            // 4. Test pentru ramura care aplică majorare (pasageri < MaximumPeopleForBase)
-            //    Pentru pasageri=1 (1 < 2), se aplică un factor de 1.1
-            //    Sa folosim o distanta de 50 km si sa nu includem opririle.
-            //    Calcul:
-            //      - Cost de baza: 50 * 0.5 = 25
-            //      - Majorare: 25 * 1.1 = 27.5
-            //      - Calcul combustibil:
-            //           Iteratia 1: fuelNeeded = 1, remaining = 50 - 10*(1+1)=50-20=30.
-            //           Iteratia 2: fuelNeeded = 2, remaining = 30 - 10*(1+0.5)=30-15=15.
-            //           Iteratia 3: fuelNeeded = 3, remaining = 15 - 10*(1+0.3333)=15-13.33≈1.67.
-            //           Iteratia 4: fuelNeeded = 4, remaining = 1.67 - 10*(1+0.25)=1.67-12.5≈-10.83 → fuelNeeded=4.
-            //      - Cost combustibil: 4 * 1.3 = 5.2
-            //      - Total asteptat: 27.5 + 5.2 = 32.7
-            double total = _distanceService.TotalTripCost(
-                distanceInKm: 50,
-                passengers: 1,
-                includeRests: false
-            );
-            Assert.Equal(32.7, total);
+    // 4. Test pentru ramura care aplică majorare (pasageri < MaximumPeopleForBase)
+    //    Pentru pasageri=1 (1 < 2), se aplică un factor de 1.1
+    //    Sa folosim o distanta de 50 km si sa nu includem opririle.
+    //    Calcul:
+    //      - Cost de baza: 50 * 0.5 = 25
+    //      - Majorare: 25 * 1.1 = 27.5
+    //      - Calcul combustibil:
+    //           Iteratia 1: fuelNeeded = 1, remaining = 50 - 10*(1+1)=50-20=30.
+    //           Iteratia 2: fuelNeeded = 2, remaining = 30 - 10*(1+0.5)=30-15=15.
+    //           Iteratia 3: fuelNeeded = 3, remaining = 15 - 10*(1+0.3333)=15-13.33≈1.67.
+    //           Iteratia 4: fuelNeeded = 4, remaining = 1.67 - 10*(1+0.25)=1.67-12.5≈-10.83 → fuelNeeded=4.
+    //      - Cost combustibil: 4 * 1.3 = 5.2
+    //      - Total asteptat: 27.5 + 5.2 = 32.7
+    double total = _distanceService.TotalTripCost(
+        distanceInKm: 50,
+        passengers: 1,
+        includeRests: false
+    );
+    Assert.Equal(32.7, total);
 
-            // 5. Test pentru ramura de discount (pasageri > MinimumPeopleForDiscount) si pentru includerea oprirlor (includeRests true) si pentru taxa suplimentara
-            // la calatorii lungi
-            //    Pentru 600 km, pasageri = 6:
-            //      - Cost de bază: 300
-            //      - Discount: 300 * 0.9 = 270
-            //      - Stops: 600/25=24
-            //      - Total cu taxa de stopuri: 270 + 7 * 24 = 438
-            //      - Calcul combustibil:
-            //            Se simulează calculul iterativ pentru 600 km.
-            //      - Total intermediar: 438 + (fuelNeeded * 1.3)
-            //      - Aplicare taxa suplimentara: total * 1.05
-            total = _distanceService.TotalTripCost(
-                distanceInKm: 600,
-                passengers: 6,
-                includeRests: true
-            );
-            Assert.Equal(536.34, total);    
-        }
+    // 5. Test pentru ramura de discount (pasageri > MinimumPeopleForDiscount) si pentru includerea oprirlor (includeRests true) si pentru taxa suplimentara
+    // la calatorii lungi
+    //    Pentru 600 km, pasageri = 6:
+    //      - Cost de bază: 300
+    //      - Discount: 300 * 0.9 = 270
+    //      - Stops: 600/25=24
+    //      - Total cu taxa de stopuri: 270 + 7 * 24 = 438
+    //      - Calcul combustibil:
+    //            Se simulează calculul iterativ pentru 600 km.
+    //      - Total intermediar: 438 + (fuelNeeded * 1.3)
+    //      - Aplicare taxa suplimentara: total * 1.05
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 600,
+        passengers: 6,
+        includeRests: true
+    );
+    Assert.Equal(536.34, total);    
+}
 ```
 
 
@@ -688,58 +688,58 @@ Decizia 8 nu poate vreodata sa fie falsa intrucat daca folosim o distanta 0, nu 
 
 ```c#
 [Fact]
-        public void DecisionCoverage(){
-            // Testarea 1: D1-true
-            Action act = () => _distanceService.TotalTripCost(
-                distanceInKm: 4,
-                passengers: 5,
-                includeRests: false
-            );
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
+public void DecisionCoverage(){
+    // Testarea 1: D1-true
+    Action act = () => _distanceService.TotalTripCost(
+        distanceInKm: 4,
+        passengers: 5,
+        includeRests: false
+    );
+    var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
 
-            // Testarea 2: D2-true, D1-false
-            act = () => _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 0,
-                includeRests: false
-            );
-            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
+    // Testarea 2: D2-true, D1-false
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 0,
+        includeRests: false
+    );
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 3: D3-true, D1-false, D2-false
-            act = () => _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 26,
-                includeRests: false
-            );
-            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
+    // Testarea 3: D3-true, D1-false, D2-false
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 26,
+        includeRests: false
+    );
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 4: D5-true, D1-false, D2-false, D3-false, D4-false, D6-false, D9-false
-            double total = _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 1,
-                includeRests: false
-            );
-            Assert.Equal(6.8, total);
+    // Testarea 4: D5-true, D1-false, D2-false, D3-false, D4-false, D6-false, D9-false
+    double total = _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 1,
+        includeRests: false
+    );
+    Assert.Equal(6.8, total);
 
-            // Testarea 5:  D6-true, D1-false, D2-false, D3-false, D4-false, D5-false, D7-false, D9-false
-            total = _distanceService.TotalTripCost(
-                distanceInKm: 24,
-                passengers: 2,
-                includeRests: true
-            );
-            Assert.Equal(14.6, total);
+    // Testarea 5:  D6-true, D1-false, D2-false, D3-false, D4-false, D5-false, D7-false, D9-false
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 24,
+        passengers: 2,
+        includeRests: true
+    );
+    Assert.Equal(14.6, total);
 
-            //Testarea 6: D4-true, D6-true, D7-true, D9-true, D1-false, D2-false, D3-false, D5-false
-            total = _distanceService.TotalTripCost(
-                distanceInKm: 600,
-                passengers: 6,
-                includeRests: true
-            );
-            Assert.Equal(536.34, total);
-       }
+    //Testarea 6: D4-true, D6-true, D7-true, D9-true, D1-false, D2-false, D3-false, D5-false
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 600,
+        passengers: 6,
+        includeRests: true
+    );
+    Assert.Equal(536.34, total);
+}
 ```
 
 
@@ -770,59 +770,59 @@ Conditia 8 nu poate vreodata sa fie falsa intrucat daca folosim o distanta 0, nu
 | T6   | 600          | 6          | true         | Testează ramura în care numărul de persoane este mai mare decât minimul pentru discount, se includ opriri și distanța este peste 500 km; returnează cost ≈ 536.34. | C1-false, C2-false, C3-false, C4-true, C5-false, C6-true, C7-true, C9.1-true, C9.2-true                                                        |
 
 ```c#
-        [Fact]
-        public void ConditionCoverage(){
-            // Testarea 1: C1-true
-            Action act = () => _distanceService.TotalTripCost(
-                distanceInKm: 4,
-                passengers: 5,
-                includeRests: false
-            );
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
+[Fact]
+public void ConditionCoverage(){
+    // Testarea 1: C1-true
+    Action act = () => _distanceService.TotalTripCost(
+        distanceInKm: 4,
+        passengers: 5,
+        includeRests: false
+    );
+    var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
 
-            // Testarea 2: C2-true, C1-false
-            act = () => _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 0,
-                includeRests: false
-            );
-            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
+    // Testarea 2: C2-true, C1-false
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 0,
+        includeRests: false
+    );
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 3: C3-true, C1-false, C2-false
-            act = () => _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 26,
-                includeRests: false
-            );
-            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
-            Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
+    // Testarea 3: C3-true, C1-false, C2-false
+    act = () => _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 26,
+        includeRests: false
+    );
+    exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+    Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
 
-            // Testarea 4: C5-true, C1-false, C2-false, C3-false, C4-false, C6-false, C9.1-false, C9.2-false
-            double total = _distanceService.TotalTripCost(
-                distanceInKm: 10,
-                passengers: 1,
-                includeRests: false
-            );
-            Assert.Equal(6.8, total);
+    // Testarea 4: C5-true, C1-false, C2-false, C3-false, C4-false, C6-false, C9.1-false, C9.2-false
+    double total = _distanceService.TotalTripCost(
+        distanceInKm: 10,
+        passengers: 1,
+        includeRests: false
+    );
+    Assert.Equal(6.8, total);
 
-            // Testarea 5:  C6-true, C1-false, C2-false, C3-false, C4-false, C5-false, C7-false, C9.1-false, C9.2-false
-            total = _distanceService.TotalTripCost(
-                distanceInKm: 24,
-                passengers: 2,
-                includeRests: true
-            );
-            Assert.Equal(14.6, total);
+    // Testarea 5:  C6-true, C1-false, C2-false, C3-false, C4-false, C5-false, C7-false, C9.1-false, C9.2-false
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 24,
+        passengers: 2,
+        includeRests: true
+    );
+    Assert.Equal(14.6, total);
 
-            //Testarea 6: D4-true, D6-true, D7-true, D9.1-true, D9.2-true, D1-false, D2-false, D3-false, D5-false
-            total = _distanceService.TotalTripCost(
-                distanceInKm: 600,
-                passengers: 6,
-                includeRests: true
-            );
-            Assert.Equal(536.34, total);
-        }
+    //Testarea 6: D4-true, D6-true, D7-true, D9.1-true, D9.2-true, D1-false, D2-false, D3-false, D5-false
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 600,
+        passengers: 6,
+        includeRests: true
+    );
+    Assert.Equal(536.34, total);
+}
 ```
 
 ## 7. Circuit Coverage
