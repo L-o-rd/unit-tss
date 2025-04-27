@@ -319,5 +319,99 @@ namespace Distance.Tests.Services {
 
             Assert.Equal(451.29, total);
         }
+
+        [Fact]
+        public void CircuitCoverage() {
+            Action act = () => _distanceService.TotalTripCost(
+                distanceInKm: 0,
+                passengers: 0,
+                includeRests: false
+            );
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+            Assert.Equal("Distance should be positive and at least five kilometers. (Parameter 'distanceInKm')", exception.Message);
+
+            act = () => _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 0,
+                includeRests: false
+            );
+
+            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+            Assert.Equal("Number of passengers should be at least one. (Parameter 'passengers')", exception.Message);
+
+            act = () => _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 30,
+                includeRests: false
+            );
+
+            exception = Assert.Throws<ArgumentOutOfRangeException>(act);
+            Assert.Equal("Number of passengers should be maximum 25. (Parameter 'passengers')", exception.Message);
+
+            var total = _distanceService.TotalTripCost(
+                distanceInKm: 30,
+                passengers: 6,
+                includeRests: true
+            );
+
+            Assert.Equal(23.1, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 10,
+                includeRests: true
+            );
+
+            Assert.Equal(4, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 6,
+                includeRests: true
+            );
+
+            Assert.Equal(4, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 750,
+                passengers: 6,
+                includeRests: false
+            );
+
+            Assert.Equal(451.29, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 250,
+                passengers: 6,
+                includeRests: false
+            );
+
+            Assert.Equal(141.1, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 1,
+                includeRests: false
+            );
+
+            Assert.Equal(4.6, total, 1e-3);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 3,
+                includeRests: true
+            );
+
+            Assert.Equal(4.3, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 6,
+                passengers: 1,
+                includeRests: true
+            );
+
+            Assert.Equal(4.6, total, 1e-3);
+        }
     }
 }
