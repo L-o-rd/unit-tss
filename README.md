@@ -14,6 +14,26 @@ Serviciul ar trebui:
 * Nu se accepta mai mult de 25 de pasageri.
 * Planificarea poate include si stop-urile aferente.
 
+## Configuratie Hardware
+
+| Componenta   | Descriere                                 |
+|--------------|-------------------------------------------|
+| CPU          | Intel Core i5 (11th Gen) |
+| RAM          | 8 GB                  |
+| Storage      | 512 GB SSD (NVMe)              |
+| GPU          | Integrated / Nvidia GT 710 |
+| OS           | Windows 11                                |
+
+## Configuratie Software
+
+| Componenta     | Descriere                               |
+|--------------|-------------------------------------------|
+| .NET SDK     | .NET 9                                    |
+| IDE          | Visual Studio 2022 / Visual Studio Code   |
+| Unit Testing | xUnit                                     |
+| Version Control | Git                                    |
+| Build Tool   | MSBuild (default with .NET SDK)           |
+
 # Functional Testing
 Functional testing este o metoda de testare software care se concentreaza pe validarea functionalitatilor unui sistem, asigurandu-se ca acestea corespund specificatiilor si cerintelor definite.
 
