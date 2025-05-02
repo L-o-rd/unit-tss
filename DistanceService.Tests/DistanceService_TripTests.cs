@@ -318,7 +318,8 @@ namespace Distance.Tests.Services {
 
             Assert.Equal(451.29, total);
         }
-    [Fact]
+
+        [Fact]
         public void StatementCoverage(){
             // 1. Test pentru distanta invalida (< 5 km)
             Action act = () => _distanceService.TotalTripCost(
@@ -385,6 +386,7 @@ namespace Distance.Tests.Services {
             );
             Assert.Equal(536.34, total);    
         }
+
         [Fact]
         public void DecisionCoverage(){
             // Testarea 1: D1-true
@@ -437,7 +439,7 @@ namespace Distance.Tests.Services {
                 includeRests: true
             );
             Assert.Equal(536.34, total);
-       }
+        }
 
         [Fact]
         public void ConditionCoverage(){
@@ -492,6 +494,7 @@ namespace Distance.Tests.Services {
             );
             Assert.Equal(536.34, total);
         }
+
         [Fact]
         public void CircuitCoverage() {
             Action act = () => _distanceService.TotalTripCost(
@@ -584,6 +587,33 @@ namespace Distance.Tests.Services {
             );
 
             Assert.Equal(4.6, total, 1e-3);
+        }
+
+        [Fact]
+        public void KillMutants() {
+            var total = _distanceService.TotalTripCost(
+                distanceInKm: 750,
+                passengers: 5,
+                includeRests: true
+            );
+
+            Assert.Equal(677.3, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 20,
+                passengers: 5,
+                includeRests: true
+            );
+
+            Assert.Equal(11.3, total);
+
+            total = _distanceService.TotalTripCost(
+                distanceInKm: 500,
+                passengers: 7,
+                includeRests: false
+            );
+
+            Assert.Equal(284.8, total);
         }
     }
 }
