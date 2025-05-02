@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceService.Tests", "Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Distance", "Distance\Distance.csproj", "{D74F31BD-E5F5-4DD2-B3BA-3CE00E26E1FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Distance.Forms", "Distance.Forms\Distance.Forms.csproj", "{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,8 +57,23 @@ Global
 		{D74F31BD-E5F5-4DD2-B3BA-3CE00E26E1FA}.Release|x64.Build.0 = Release|Any CPU
 		{D74F31BD-E5F5-4DD2-B3BA-3CE00E26E1FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{D74F31BD-E5F5-4DD2-B3BA-3CE00E26E1FA}.Release|x86.Build.0 = Release|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Debug|x64.Build.0 = Debug|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Release|x64.ActiveCfg = Release|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Release|x64.Build.0 = Release|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4757AF9-0E15-4261-B5E6-FB6E1EB82DB3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84F3D5A0-7831-40CC-9997-591485E9ADED}
 	EndGlobalSection
 EndGlobal
