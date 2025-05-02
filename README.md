@@ -868,3 +868,86 @@ public void CircuitCoverage() {
 }
 ```
 
+## Mutation Testing
+Pentru testarea folosind mutanti, proiectul foloseste framework-ul Stryker ce genereaza diferite tipuri de mutanti pe sursa noastra.\
+Sunt considerati 47 de mutanti cu variatii:
+* Arithmetic Operator $\rightarrow$ Spre exemplu: $a + b$ $\rightarrow$ $a - b$, $a * b$ $\rightarrow$ $a / b$ etc.
+* Equality Operator $\rightarrow$ Spre exemplu: $a < b$ $\rightarrow$ $a \leq b$, $a < b$ $\rightarrow$ $a \geq b$ etc.
+* Conditional Expression $\rightarrow$ Spre exemplu: $if (a > b)$ $\rightarrow$ $if (true)$, $while (a > b)$ $\rightarrow$ $while (false)$ etc.\
+Folosind toate metodele de testare de pana acum au ramas in viata 4 mutanti, iar 2 nu se termina (timeout):
+1. $M_1$ $\rightarrow$
+
+| Original | Mutant (Survived) |
+| :---------: | :---------: |
+| `if (passengers > DistanceService.MinimumPeopleForDiscount)` | `if (passengers >= DistanceService.MinimumPeopleForDiscount)` |
+
+2. $M_2$ $\rightarrow$
+   
+| Original | Mutant (Survived) |
+| :---------: | :---------: |
+| `while (remaining > 0.0)` | `while (remaining >= 0.0)` |
+
+3. $M_3$ $\rightarrow$
+
+| Original | Mutant (Survived) |
+| :---------: | :---------: |
+| `if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))` | `if ((passengers >= DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))` |
+
+4. $M_4$ $\rightarrow$
+
+| Original | Mutant (Survived) |
+| :---------: | :---------: |
+| `if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm > 500))` | `if ((passengers > DistanceService.MinimumPeopleForDiscount) && (distanceInKm >= 500))` |
+
+5. $M_5$ $\rightarrow$
+
+| Original | Mutant (Timeout) |
+| :---------: | :---------: |
+| `for (int i = 0; i < stops; ++i)` | `for (int i = 0; i < stops; --i)` |
+
+6. $M_6$ $\rightarrow$
+
+| Original | Mutant (Timeout) |
+| :---------: | :---------: |
+| `remaining -= efficiency * (1.0 + (1.0 / fuelNeeded))` | `remaining += efficiency * (1.0 + (1.0 / fuelNeeded))` |
+
+Scorul initial al testului a fost $~ 91.5$\%.
+Folosind un set aditional de teste putem distinge si cei 4 mutanti $M_1$, $M_2$, $M_3$ si $M_4$, deci nu sunt mutanti echivalenti si putem astfel obtine un scor maxim de $100$\%.
+Pentru a distinge cei 4 mutanti, avem nevoie de un test de boundary pentru $M_1$ adica unul cu $5$ pasageri.\
+Pentru a distinge mutantul $M_2$ avem nevoie de un test de boundary pentru remaining adica atunci cand distanta este egala cu formula cu care este calculat consumul, deci $distanta = 10 * (1 + 1/1) = 20$.\
+Pentru a distinge mutantii $M_3$ si $M_4$ avem nevoie de teste boundary cu $5$ pasageri si distanta de $500$, deci mai avem nevoie de un singur test.
+
+|   Intrari (d, p, r)   |   Expected    |
+| :---------: | :-----------: |
+| $(750, 5, True)$ | Se returneaza totalul de $677,3$. |
+| $(20, 5, True)$ | Se returneaza totalul de $11,3$. |
+| $(500, 7, False)$ | Se returneaza totalul de $284,8$. |
+
+```cs
+[Fact]
+public void KillMutants() {
+    var total = _distanceService.TotalTripCost(
+        distanceInKm: 750,
+        passengers: 5,
+        includeRests: true
+    );
+
+    Assert.Equal(677.3, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 20,
+        passengers: 5,
+        includeRests: true
+    );
+
+    Assert.Equal(11.3, total);
+
+    total = _distanceService.TotalTripCost(
+        distanceInKm: 500,
+        passengers: 7,
+        includeRests: false
+    );
+
+    Assert.Equal(284.8, total);
+}
+```
