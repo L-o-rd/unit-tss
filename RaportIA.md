@@ -164,6 +164,83 @@ Analiza manuala rezulta in $23$ de teste valide si cu importanta pentru serviciu
 | $(750, 25, True)$ | Se returneaza totalul de $671,79$. |
 | $(750, 25, False)$ | Se returneaza totalul de $451,29$. |
 
+## Structural Testing
+### 4. Statement Testing
+Analiza manuala:
+
+|   Intrari (d, p, r)   |   Expected    | Decizii acoperite |
+| :---------: | :-----------: | :-----------: |
+| $(5 - \epsilon, \textunderscore, \textunderscore)$ | Testeaza ramura in care distanta este macar 5 kilometrii. |  1,2 |
+| $(10, 0, \textunderscore)$ | Testeaza ramura in care numarul de persoane este minim 1. | 1,3,4 |
+| $(10, 30, \textunderscore)$ | Testeaza ramura in care numarul de persoane este maxim 25. | 1,3,5,6 |
+| $(50, 1, False)$ | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returneaza totalul de 32.7 | 1,3,5,7,8,10,11,12,13,17,18,19,20,21,22,23,24,26 |
+| $(600, 6, True)$ | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returneaza totalul de 536.34 | 1,3,5,7,8,9,13,14,15,16,17,18,19,20,21,22,23,24,25,26 |
+
+Analiza AI:
+
+| Intrari (d, p, r)   | Expected                                                      | Decizii acoperite                                                   |
+|:-------------------:|:--------------------------------------------------------------|:-----------------------------------------------------------------|
+| `(4, 1, False)`     | `ArgumentOutOfRangeException` pentru `distanceInKm < 5.0`     | 1, 2                                                              |
+| `(10, 0, False)`    | `ArgumentOutOfRangeException` pentru `passengers ≤ 0`         | 1, 3, 4                                                          |
+| `(10, 30, False)`   | `ArgumentOutOfRangeException` pentru `passengers > 25`        | 1, 3, 5, 6                                                       |
+| `(600, 6, True)`    | cost cu **discount**, **opriri** și **suprataxă suplimentară**| 1, 3, 5, 7, 8, 9, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 |
+| `(100, 3, False)`   | cost **normal** (fără discount, fără opriri, fără suprataxă)  | 1, 3, 5, 7, 8, 10, 11, 17, 18, 19, 20, 21, 22, 23, 24, 26          |
+| `(100, 1, False)`   | cost cu **majorare** pentru grup mic, fără opriri            | 1, 3, 5, 7, 8, 10, 11, 12, 17, 18, 19, 20, 21, 22, 23, 24, 26     |
+
+Dupa cate putem observa testele generate automat sunt bune, dar nu sunt minimale fiind un test in plus.
+
+### 5. Decision Testing
+
+Analiza manuala:
+
+| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                        | Decizii acoperite                                                                                  |
+|------|----|----|-------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| T1   | 4 | 5 | false | Testeaza ramura in care distanta este macar 5 kilometrii. | D1-true                                                                                            |
+| T2   | 10 | 0   | false | Testeaza ramura in care numarul de persoane este minim 1.            | D1-false,   D2-true                                                                                  |
+| T3   | 10 | 26 | false | Testeaza ramura in care numarul de persoane este maxim 25.             | D1-false, D2-false, D3-true                                                                        |
+| T4   | 10 | 1 | false | Testeaza ramura in care numarul de persoane este mai mic decat numarul maxim de persoane de baza si returnează cost = 6.30                                                     | D5-true, D1-false, D2-false, D3-false, D4-false, D6-false, D9-false                                 |
+| T5   | 24 | 2 | true | Testeaza ramura in care numarul de persoane este mai mare sau egal decat numarul maxim de persoane de baza, este mai mic decat numarul minim de persoane de baza, ca sunt incluse stopuri ca si posibilitate dar ele nu sunt, ca distanta este mai mica decat 500 de km si returnează cost = 14.6                                                     | D6-true, D1-false, D2-false, D3-false, D4-false, D5-false, D7-false, D9-false                                 |
+| T6   | 600  | 6 | true | Testeaza ramura in care numarul de persoane este mai mare decat numarul minim de persoane pentru discount, daca sunt incluse stopuri in calatorie si daca distanta este mai mare decat 500 de km iar returnează cost ≈ 536.34                                                    | D1-false, D2-false, D3-false, D4-true,  D5-false, D6-true, D7-true, D9-true                                   |
+
+Analiza AI:
+
+| Intrări (d, p, r)   | Expected                                                            | Linii acoperite                                                |
+|:-------------------:|:--------------------------------------------------------------------|:--------------------------------------------------------------:|
+| `(4, 1, False)`     | `ArgumentOutOfRangeException` pentru `distanceInKm < 5.0`            | 1 (T), 2                                                        |
+| `(10, 0, False)`    | `ArgumentOutOfRangeException` pentru `passengers ≤ 0`                | 1 (F), 3 (T), 4                                                |
+| `(10, 30, False)`   | `ArgumentOutOfRangeException` pentru `passengers > 25`               | 1 (F), 3 (F), 5 (T), 6                                        |
+| `(10, 1, False)`    | cost cu majorare `*1.1`, fără opriri, fără suprataxă suplimentară    | 1 F, 3 F, 5 F, 7, 8 F, 11 T, 13 F, 20 T, 20 F, 23, 24 F, 26     |
+| `(10, 3, True)`     | cost normal, opriri = 0 (distance/25 = 0), fără suprataxă suplimentară | 1 F, 3 F, 5 F, 7, 8 F, 11 F, 13 T, 15 F, 20 T, 20 F, 23, 24 F, 26 |
+| `(600, 6, True)`    | cost cu discount `*0.9`, opriri > 0, *plus* suprataxă `*1.05`          | 1 F, 3 F, 5 F, 7, 8 T, 9, 13 T, 15 T, 16, 20 T, 20 F, 23, 24 T, 25, 26 |
+
+Testele sunt bune si este si numarul minim de teste posibile deci de data asta AI-ul (adica chatgpt) a facut cum trebuie testarea.
+
+### 6. Condition Testing
+
+Analiza manuala:
+
+| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                                                                 | Condiții acoperite                                                                          |
+|------|--------------|------------|--------------|-------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| T1   | 4            | 5          | false        | Testează ramura în care distanța este mai mică decât 5 kilometri.                                                  | C1-true                                                                                      |
+| T2   | 10           | 0          | false        | Testează ramura în care numărul de persoane este minim 1.                                                          | C1-false, C2-true                                                                           |
+| T3   | 10           | 26         | false        | Testează ramura în care numărul de persoane este maxim 25.                                                         | C1-false,C2-false C3-true                                                                                      |
+| T4   | 10           | 1          | false        | Testează ramura în care numărul de persoane este mai mic decât numărul maxim de persoane de bază și returnează cost = 6.30 | C1-false,C2-false,C3-false, C4-false, C5-true, C6-false, C9.1-false, C9.2-false                                                        |
+| T5   | 24           | 2          | true        | Testeaza ramura in care numarul de persoane este mai mare sau egal decat numarul maxim de persoane de baza, este mai mic decat numarul minim de persoane de baza, ca sunt incluse stopuri ca si posibilitate dar ele nu sunt, ca distanta este mai mica decat 500 de km si returnează cost = 14.6 | C1-false,C2-false,C3-false,C4-false, C5-false, C6-true, C7-false, C9.1-false, C9.2-false                                                       |
+| T6   | 600          | 6          | true         | Testează ramura în care numărul de persoane este mai mare decât minimul pentru discount, se includ opriri și distanța este peste 500 km; returnează cost ≈ 536.34. | C1-false, C2-false, C3-false, C4-true, C5-false, C6-true, C7-true, C9.1-true, C9.2-true                                                        |
+
+Analiza AI:
+
+| Test | distanceInKm | passengers | includeRests | Rezultatul afișat                                                      | Condiții individuale acoperite                                                                                         |
+|:----:|:------------:|:----------:|:------------:|:------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------|
+| T1   | 4            | 1          | false        | aruncă `ArgumentOutOfRangeException` pentru `distanceInKm < 5.0`          | C1 = true                                                                                                               |
+| T2   | 10           | 0          | false        | aruncă `ArgumentOutOfRangeException` pentru `passengers ≤ 0`              | C1 = false, C2 = true                                                                                                  |
+| T3   | 10           | 30         | false        | aruncă `ArgumentOutOfRangeException` pentru `passengers > 25`             | C1 = false, C2 = false, C3 = true                                                                                       |
+| T4   | 100          | 1          | false        | cost grup mic (majorare *1.1), fără opriri şi fără suprataxă               | C1 = false, C2 = false, C3 = false, C4 = false, C5 = true, C6 = false, C9.1 = false, C9.2 = false                 |
+| T5   | 100          | 3          | true         | cost grup mediu (fără discount), cu opriri (4 opriri) şi fără suprataxă     | C1 = false, C2 = false, C3 = false, C4 = false, C5 = false, C6 = true, C9.1 = false, C9.2 = false       |
+| T6   | 600          | 6          | true         | cost cu discount (*0.9), cu opriri (24 opriri) şi suprataxă suplimentară (*1.05) | C1 = false, C2 = false, C3 = false, C4 = true,  C5 = false, C6 = true, C9.1 = true,  C9.2 = true        |
+
+Testele sunt bune doar ca nu ia in calcul si condia 7, cea cu for. Desi este prezent numarul minim de teste posibile, nu prezinta in totalitate raspunsul corect deci nu acopera per total Condition Testing
+
 ## Mutation Testing
 
 Proiectul foloseste libraria Stryker .NET pentru generarea automata a mutantilor de diferite tipuri, astfel avem 47 de mutanti. Mutantii generati de AI sunt urmatorii 5:
