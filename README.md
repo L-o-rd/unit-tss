@@ -34,6 +34,10 @@ Serviciul ar trebui:
 | Version Control | Git                                    |
 | Build Tool   | MSBuild (default with .NET SDK)           |
 
+## Demo
+
+[![Demo](https://img.youtube.com/vi/wfbm_bj21sk/0.jpg)](https://www.youtube.com/watch?v=wfbm_bj21sk)
+
 # Functional Testing
 Functional testing este o metoda de testare software care se concentreaza pe validarea functionalitatilor unui sistem, asigurandu-se ca acestea corespund specificatiilor si cerintelor definite.
 
