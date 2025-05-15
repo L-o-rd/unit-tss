@@ -1,4 +1,4 @@
 ## MUTATION GRAPHIC
-![Mutation](images/Mutantation report-1.png)
+![Mutation](images/Mutation-report-1.png)
 ## COVERAGE GRAPHIC
-![Coverage](images/Coverage report-1.png)
+![Coverage](images/Coverage-report-1.png)
