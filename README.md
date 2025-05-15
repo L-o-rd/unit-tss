@@ -510,7 +510,7 @@ public double TotalTripCost(double distanceInKm, int passengers, bool includeRes
 26.     return total;}
 ```
 
-![Diagrama](graf.jpeg)
+![Diagrama](images/graf.jpeg)
 
 ## 4. Statement Testing
 Verificam daca fiecare instructiune din cod a fost executata cel putin o data.
